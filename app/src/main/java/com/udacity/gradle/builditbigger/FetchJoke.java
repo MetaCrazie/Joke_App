@@ -2,6 +2,7 @@ package com.udacity.gradle.builditbigger;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import com.google.api.client.extensions.android.http.AndroidHttp;
 import com.google.api.client.extensions.android.json.AndroidJsonFactory;
 import com.google.api.client.googleapis.services.AbstractGoogleClientRequest;
 import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
+import com.metacrazie.jokedisplaylib.DisplayJoke;
 import com.udacity.builditbigger.backend.myApi.MyApi;
 
 import java.io.IOException;
@@ -21,7 +23,6 @@ public class FetchJoke extends AsyncTask<Context, Void, String> {
 
     private static MyApi myApiService = null;
     private Context mContext;
-    private String mName;
 
     public FetchJoke(Context context){
         mContext=context;
@@ -51,7 +52,10 @@ public class FetchJoke extends AsyncTask<Context, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-        Log.d("onPostExecute", result);
-        Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();
+       /* Log.d("onPostExecute", result);
+        Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();*/
+        Intent intent=new Intent(mContext, DisplayJoke.class);
+        intent.putExtra("JOKE", result);
+        mContext.startActivity(intent);
     }
 }
