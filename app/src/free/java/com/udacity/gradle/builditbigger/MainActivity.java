@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     public void tellJoke(View view) {
         spinner.setVisibility(View.VISIBLE);
         mInterstitialAd.show();
-        //new FetchJoke(getApplicationContext(), spinner).execute();
         String appVersion="FREE";
         Toast.makeText(this, appVersion, Toast.LENGTH_LONG).show();
     }

@@ -56,8 +56,6 @@ public class FetchJoke extends AsyncTask<Context, Void, String> {
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
-       /* Log.d("onPostExecute", result);
-        Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();*/
         Intent intent=new Intent(mContext, DisplayJoke.class);
         intent.putExtra("JOKE", result);
         mSpinner.setVisibility(View.GONE);
