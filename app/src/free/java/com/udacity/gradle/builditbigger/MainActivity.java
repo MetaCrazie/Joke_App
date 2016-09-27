@@ -6,10 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.udacity.gradle.builditbigger.FetchJoke;
 import com.udacity.gradle.builditbigger.R;
 
@@ -17,6 +20,10 @@ import com.udacity.gradle.builditbigger.R;
  * Created by praty on 18/09/2016.
  */
 public class MainActivity extends AppCompatActivity {
+
+    private InterstitialAd mInterstitialAd;
+    private ProgressBar spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +37,20 @@ public class MainActivity extends AppCompatActivity {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
+
+        spinner= (ProgressBar)findViewById(R.id.pbar);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+
+        mInterstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                new FetchJoke(getApplicationContext(), spinner).execute();
+            }
+        });
+        requestNewInterstitial();
+
     }
 
 
@@ -55,15 +76,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void requestNewInterstitial() {
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+                .build();
+
+        mInterstitialAd.loadAd(adRequest);
+    }
+
     public void tellJoke(View view) {
-        new FetchJoke(getApplicationContext()).execute();
+        spinner.setVisibility(View.VISIBLE);
+        mInterstitialAd.show();
+        //new FetchJoke(getApplicationContext(), spinner).execute();
         String appVersion="FREE";
         Toast.makeText(this, appVersion, Toast.LENGTH_LONG).show();
-       /* String joke= Jokes.getJoke();
-        Toast.makeText(this, joke , Toast.LENGTH_SHORT).show();
-        Intent intent=new Intent(MainActivity.this, DisplayJoke.class);
-        intent.putExtra("JOKE", joke);
-        startActivity(intent);*/
     }
 
 }

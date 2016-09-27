@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.udacity.gradle.builditbigger.FetchJoke;
@@ -14,6 +15,9 @@ import com.udacity.gradle.builditbigger.R;
  * Created by praty on 18/09/2016.
  */
 public class MainActivity extends AppCompatActivity {
+
+    private ProgressBar spinner;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);*/
+
+        spinner=(ProgressBar)findViewById(R.id.pbar);
     }
 
 
@@ -53,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        new FetchJoke(getApplicationContext()).execute();
+        spinner.setVisibility(View.VISIBLE);
+        new FetchJoke(getApplicationContext(), spinner).execute();
         String appVersion="PAID";
         Toast.makeText(this, appVersion, Toast.LENGTH_LONG).show();
        /* String joke= Jokes.getJoke();

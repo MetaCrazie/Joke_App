@@ -6,4 +6,5 @@ public class Jokes {
     public static String getJoke() {
         return joke;
     }
+
 }

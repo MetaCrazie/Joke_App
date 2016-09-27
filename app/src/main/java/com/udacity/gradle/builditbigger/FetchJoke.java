@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -23,9 +25,11 @@ public class FetchJoke extends AsyncTask<Context, Void, String> {
 
     private static MyApi myApiService = null;
     private Context mContext;
+    private ProgressBar mSpinner;
 
-    public FetchJoke(Context context){
+    public FetchJoke(Context context, ProgressBar spinner){
         mContext=context;
+        mSpinner=spinner;
     }
 
     @Override
@@ -56,6 +60,7 @@ public class FetchJoke extends AsyncTask<Context, Void, String> {
         Toast.makeText(mContext, result, Toast.LENGTH_LONG).show();*/
         Intent intent=new Intent(mContext, DisplayJoke.class);
         intent.putExtra("JOKE", result);
+        mSpinner.setVisibility(View.GONE);
         mContext.startActivity(intent);
     }
 }
